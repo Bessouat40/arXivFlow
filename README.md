@@ -62,8 +62,8 @@ docker run -d --name minio_server \
 
 ## TODO
 
-- [ ] Containerization with Docker: Create a Dockerfile to containerize the application and manage its dependencies.
+- [ ] **Containerization with Docker:** Create a Dockerfile to containerize the application and manage its dependencies.
 
-- [ ] Embedding Extraction: Use a model (such as Sentence Transformers) to extract and store embeddings from the PDFs for later semantic search.
+- [ ] **Embedding Extraction:** Use a model to extract and store embeddings from the PDFs for later semantic search.
 
-- [ ] Semantic Search: Implement a semantic search feature that leverages the stored embeddings to enable more accurate article search.
+- [ ] **Semantic Search:** Implement a semantic search feature that leverages the stored embeddings to enable more accurate article search.
