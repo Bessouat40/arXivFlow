@@ -1,0 +1,1 @@
+from .minio_client import MinIOClient

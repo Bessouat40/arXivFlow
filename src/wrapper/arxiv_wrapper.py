@@ -1,7 +1,7 @@
 import requests
 import re
 import os
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from .article import Article
 
@@ -56,7 +56,6 @@ class ArXivWrapper:
             if given_date == self.date:
                 self.articles.append(article)
             else:
-                print(article)
                 return False
         return True
 
@@ -70,29 +69,3 @@ class ArXivWrapper:
             index += 1
 
         return unique_filename
-    
-    def ingestInMinio(self, minio_client, bucket_name):
-        """
-        Pour chaque article, télécharge le PDF et l'upload dans MinIO.
-        """
-        for article in self.articles:
-            try:
-                response = requests.get(article.pdf_path)
-                if response.status_code == 200:
-                    pdf_bytes = response.content
-                    # Générer un nom d'objet unique pour éviter les collisions
-                    object_name = self.generate_unique_object_name(article.title + ".pdf")
-                    pdf_file = io.BytesIO(pdf_bytes)
-                    file_size = len(pdf_bytes)
-                    minio_client.put_object(
-                        bucket_name,
-                        object_name,
-                        pdf_file,
-                        file_size,
-                        content_type="application/pdf"
-                    )
-                    print(f"Ingested into MinIO: {object_name}")
-                else:
-                    print(f"Error downloading PDF for {article.title} (status {response.status_code})")
-            except Exception as e:
-                print(f"Error ingesting {article.title} into MinIO: {e}")
