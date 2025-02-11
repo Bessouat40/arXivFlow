@@ -13,6 +13,7 @@ __pypackages__/
 celerybeat-schedule
 celerybeat.pid
 
+articles/
 .DS_Store
 # Environments
 .env
