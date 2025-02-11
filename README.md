@@ -13,7 +13,7 @@ arXivFlow is a project that enables you to automatically fetch, process, and ing
 1. Clone the repository
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/Bessouat40/arXivFlow.git
 cd arXivFlow
 ```
 
