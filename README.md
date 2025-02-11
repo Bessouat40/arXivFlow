@@ -1,6 +1,6 @@
 # arXivFlow
 
-arXivFlow is an end-to-end MLOps pipeline that enables you to automatically fetch, process, and ingest the latest ArXiv research papers on any given topic on a daily basis. This daily retrieval supports continuous technological monitoring, ensuring that you stay up-to-date with emerging research and trends. The pipeline is orchestrated using [Prefect](https://www.prefect.io/) for scheduling and seamless automation, and it stores the retrieved PDFs in a [MinIO](https://min.io/) object storage system for efficient management and retrieval.
+arXivFlow is a project that enables you to automatically fetch, process, and ingest the latest ArXiv research papers on any given topic on a daily basis. This daily retrieval supports continuous technological monitoring, ensuring that you stay up-to-date with emerging research and trends. The pipeline is orchestrated using [Prefect](https://www.prefect.io/) for scheduling and seamless automation, and it stores the retrieved PDFs in a [MinIO](https://min.io/) object storage system for efficient management and retrieval.
 
 ## Features
 
