@@ -2,6 +2,10 @@
 
 arXivFlow is a project that enables you to automatically fetch, process, and ingest the latest ArXiv research papers on any given topic on a daily basis. This daily retrieval supports continuous technological monitoring, ensuring that you stay up-to-date with emerging research and trends. The pipeline is orchestrated using [Prefect](https://www.prefect.io/) for scheduling and seamless automation, and it stores the retrieved PDFs in a [MinIO](https://min.io/) object storage system for efficient management and retrieval.
 
+<div align="center">
+    <img alt="RAGLight" height="500px" src="./media/schema.png">
+</div>
+
 ## Features
 
 - Fetch ArXiv Papers: Automatically query the ArXiv API for research papers based on a topic and publication date.
@@ -33,6 +37,18 @@ You can run the pipeline as a scheduled flow using Prefect. For example, to run 
 python3 -m main
 ```
 
+### Running with Docker
+
+You can now run Prefect flow inside a Docker container :
+
+```bash
+docker-compose up -d --build
+```
+
+Now you can access Prefect UI at [localhost:4200](http://localhost:4200/dashboard).
+
+Your flow will run every day at midnight.
+
 ## Configuration
 
 ### Topic and Date Filtering
@@ -62,7 +78,7 @@ docker run -d --name minio_server \
 
 ## TODO
 
-- [ ] **Containerization with Docker:** Create a Dockerfile to containerize the application and manage its dependencies.
+- [x] **Containerization with Docker:** Create a Dockerfile to containerize the application and manage its dependencies.
 
 - [ ] **Embedding Extraction:** Use a model to extract and store embeddings from the PDFs for later semantic search.
 
