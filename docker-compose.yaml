@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  prefect-server:
+  arxivflow-prefect-server:
     build:
       context: .
       dockerfile: Dockerfile.prefect-server
@@ -19,7 +19,7 @@ services:
       timeout: 5s
       retries: 10
 
-  prefect-agent:
+  arxivflow-prefect-agent:
     build: .
     env_file:
       - .env
@@ -27,10 +27,10 @@ services:
       - PREFECT_API_URL=${PREFECT_API_URL_AGENT}
     restart: always
     depends_on:
-      prefect-server:
+      arxivflow-prefect-server:
         condition: service_healthy
     volumes:
-      - articles:/app/articles
+      - ${ARTICLES_PATH}:/app/articles
 
 volumes:
   articles:
