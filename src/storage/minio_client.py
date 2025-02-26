@@ -3,6 +3,7 @@ import io
 import uuid
 import requests
 from minio import Minio
+import logging
 
 class MinIOClient:
     def __init__(self, endpoint, access_key, secret_key):
@@ -21,9 +22,9 @@ class MinIOClient:
     def ensure_bucket_exists(self, bucket_name):
         if not self.minio_client.bucket_exists(bucket_name):
             self.minio_client.make_bucket(bucket_name)
-            print(f"Bucket '{bucket_name}' created.")
+            logging.info(f"Bucket '{bucket_name}' created.")
         else:
-            print(f"Bucket '{bucket_name}' already exists.")
+            logging.info(f"Bucket '{bucket_name}' already exists.")
 
     def ingestDocsInMinio(self, bucket_name, articles):
         self.ensure_bucket_exists(bucket_name)
@@ -45,8 +46,8 @@ class MinIOClient:
                     file_size,
                     content_type="application/pdf"
                 )
-                print(f"Ingested into MinIO: {object_name}")
+                logging.info(f"Ingested into MinIO: {object_name}")
             else:
-                print(f"Error downloading PDF for {article.title} (status {response.status_code})")
+                logging.info(f"Error downloading PDF for {article.title} (status {response.status_code})")
         except Exception as e:
-            print(f"Error ingesting {article.title} into MinIO: {e}")
+            logging.info(f"Error ingesting {article.title} into MinIO: {e}")

@@ -29,8 +29,6 @@ services:
     depends_on:
       arxivflow-prefect-server:
         condition: service_healthy
-    volumes:
-      - ${ARTICLES_PATH}:/app/articles
 
 volumes:
   articles:

@@ -1,8 +1,8 @@
 import os
 
 class Config:
-    PERSIST_DIRECTORY = os.environ.get("PERSIST_DIRECTORY")
-    EMBEDDING_MODEL = os.environ.get("EMBEDDING_MODEL")
+    PERSIST_DIRECTORY = os.environ.get("PERSIST_DIRECTORY", "./")
+    EMBEDDING_MODEL = os.environ.get("EMBEDDING_MODEL", "all-MiniLM-L6-v2")
     COLLECTION_NAME = os.environ.get("COLLECTION_NAME")
     MINIO_ENDPOINT = os.environ.get("MINIO_ENDPOINT")
     MINIO_ACCESS_KEY = os.environ.get("MINIO_ACCESS_KEY")

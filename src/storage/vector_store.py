@@ -3,8 +3,9 @@ from pypdf import PdfReader
 import requests
 import io
 from langchain_core.documents import Document
+import logging
 
-from ..config.config import Config
+from src.config import Config
 
 Settings.setup_logging()
 
@@ -27,17 +28,17 @@ class VectorStore:
                 text = self.get_text_from_pdf(response)
                 
                 if not text:
-                    print(f"No text find for {title} pdf...")
+                    logging.info(f"No text find for {title} pdf...")
                     return
 
                 doc = Document(page_content=text, metadata={"source": title})
                 splits = self.vector_store.split_docs([doc])
                 self.vector_store.add_index(splits)
-                print(f"PDF indexed : {title}")
+                logging.info(f"PDF indexed : {title}")
             else:
-                print(f"Error during {title} downloading : status {response.status_code}")
+                logging.info(f"Error during {title} downloading : status {response.status_code}")
         except Exception as e:
-            print(f"Error during {title} indexation : {e}")
+            logging.info(f"Error during {title} indexation : {e}")
 
     @staticmethod
     def get_text_from_pdf(response):

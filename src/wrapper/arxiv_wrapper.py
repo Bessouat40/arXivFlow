@@ -2,6 +2,7 @@ import requests
 import re
 import os
 from datetime import datetime
+import logging
 
 from .article import Article
 
@@ -38,10 +39,10 @@ class ArXivWrapper:
             with open(os.path.join(directory, filename), 'wb') as file:
                 file.write(response.content)
 
-            print(f"Downloaded: {filename}")
+            logging.info(f"Downloaded: {filename}")
 
         except Exception as e:
-            print(f"Error downloading {article.title} : {e}")
+            logging.info(f"Error downloading {article.title} : {e}")
 
     def download_articles(self, directory):
         for article in self.articles:

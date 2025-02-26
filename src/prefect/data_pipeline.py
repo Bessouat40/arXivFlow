@@ -1,6 +1,6 @@
 from prefect import task
 from src.storage.minio_client import MinIOClient
-from src import Config
+from src.config import Config
 @task
 def ingest_articles_in_minio(bucket_name: str, articles: list) -> str:
     minio_client = MinIOClient(

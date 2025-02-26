@@ -9,4 +9,4 @@ RUN pip install --upgrade pip && \
 COPY src/ /app/src
 COPY main.py /app
 
-CMD ["python", "-m",  "app.main"]
+CMD ["python", "-m",  "main"]

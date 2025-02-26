@@ -1,17 +1,20 @@
 from datetime import datetime, timedelta
-from prefect import flow, task
+from prefect import flow, task, get_run_logger
+from prefect.futures import PrefectFuture
+import logging
 
-from src import ArXivWrapper, Config
-
+from src.config import Config
+from src.wrapper import ArXivWrapper
 from .data_pipeline import ingest_articles_in_minio
 from .feature_pipeline import ingest_articles_in_vector_store
 
 @task
 def fetch_articles(topic: str, days_ago: int, k: int) -> list:
+    logger = get_run_logger()
     target_date = datetime.now() - timedelta(days=days_ago)
     wrapper = ArXivWrapper(date=target_date, topic=topic)
     wrapper.get_articles(k=k)
-    print(f"Fetched {len(wrapper.articles)} articles for topic '{topic}' on {target_date.strftime('%Y-%m-%d')}")
+    logger.info(f"Fetched {len(wrapper.articles)} articles for topic '{topic}' on {target_date.strftime('%Y-%m-%d')}")
     return wrapper.articles
 
 @flow(name="ArXiv to Vector Store and MinIO Pipeline")
@@ -22,7 +25,11 @@ def arxiv_pipeline(
     bucket_name = Config.BUCKET_NAME
 ):
     articles = fetch_articles(topic, days_ago, k)
-    result_message_vs = ingest_articles_in_vector_store(articles)
-    print(result_message_vs)
-    result_message_minio = ingest_articles_in_minio(bucket_name, articles)
-    print(result_message_minio)
+
+    vs_future: PrefectFuture = ingest_articles_in_vector_store.submit(articles)
+    minio_future: PrefectFuture = ingest_articles_in_minio.submit(bucket_name, articles)
+
+    result_message_vs = vs_future.result()
+    logging.info(result_message_vs)
+    result_message_minio = minio_future.result()
+    logging.info(result_message_minio)
