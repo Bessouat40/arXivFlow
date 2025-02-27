@@ -21,10 +21,18 @@ git clone https://github.com/Bessouat40/arXivFlow.git
 cd arXivFlow
 ```
 
-2. Install the required packages
+2. Configure .env File
+
+You'll need to rename **.env.example** file and fill it with your own values :
 
 ```bash
-python3 -m pip install -r requirements.txt
+mv .env.example .env
+```
+
+3. Install the required packages
+
+```bash
+python -m pip install -r requirements.txt
 ```
 
 ## Usage
@@ -34,7 +42,7 @@ python3 -m pip install -r requirements.txt
 You can run the pipeline as a scheduled flow using Prefect. For example, to run the pipeline daily at midnight, use the Prefect deployment approach or serve the flow directly (for testing purposes).
 
 ```bash
-python3 -m main
+python -m main
 ```
 
 ### Running with Docker
@@ -51,19 +59,13 @@ Your flow will run every day at midnight.
 
 ## Configuration
 
-### Topic and Date Filtering
+### Topic
 
-The pipeline fetches articles based on a given topic and a target date (e.g., yesterday).
+The pipeline fetches articles based on a given topic.
 
-You can modify these parameters in your flow (`in src/prefect/pipeline.py`).
-
-### MinIO Credentials and Bucket
-
-The MinIOClient is configured with default credentials (`minioadmin/minioadmin`) and an endpoint (`localhost:9000`). The bucket name used is "`llm-pdf`". Make sure your MinIO instance is running and accessible.
+You can modify this parameter in the **.env** file.
 
 ## Prerequisites
-
-- Python 3.11 (or compatible version)
 
 - MinIO: Make sure you have a running MinIO server. You can start one using Docker:
 
@@ -80,6 +82,6 @@ docker run -d --name minio_server \
 
 - [x] **Containerization with Docker:** Create a Dockerfile to containerize the application and manage its dependencies.
 
-- [ ] **Embedding Extraction:** Use a model to extract and store embeddings from the PDFs for later semantic search.
+- [x] **Embedding Extraction:** Use a model to extract and store embeddings from the PDFs for later semantic search.
 
 - [ ] **Semantic Search:** Implement a semantic search feature that leverages the stored embeddings to enable more accurate article search.
