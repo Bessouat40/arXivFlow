@@ -25,10 +25,22 @@ services:
       - .env
     environment:
       - PREFECT_API_URL=${PREFECT_API_URL_AGENT}
+    volumes:
+      - ${PERSIST_DIRECTORY}:/app/defaultDb
     restart: always
     depends_on:
       arxivflow-prefect-server:
         condition: service_healthy
 
+  minio:
+    image: minio/minio
+    env_file:
+      - .env
+    ports:
+      - '9000:9000'
+    volumes:
+      - minio_data:/data
+    command: server /data
+
 volumes:
-  articles:
+  minio_data:
