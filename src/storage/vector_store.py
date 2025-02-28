@@ -1,8 +1,9 @@
 from raglight import ChromaVS, Settings, Builder
-from pypdf import PdfReader
+import pdfplumber
 import requests
 import io
 from langchain_core.documents import Document
+from concurrent.futures import ThreadPoolExecutor, as_completed
 import logging
 
 from src.config import Config
@@ -44,15 +45,37 @@ class VectorStore:
     def get_text_from_pdf(response):
         pdf_bytes = response.content
         pdf_file = io.BytesIO(pdf_bytes)
-        
-        reader = PdfReader(pdf_file)
-        text = ""
-        for page in reader.pages:
-            page_text = page.extract_text()
-            if page_text:
-                text += page_text + "\n"
+        with pdfplumber.open(pdf_file) as pdf:
+            text = ""
+            for page in pdf.pages:
+                text += page.extract_text() + "\n"
         return text
 
-    def ingest_articles(self, articles):
-        for article in articles:
+    def ingest_articles_multiple_threads(self, articles, logger=None):
+        docs = []
+        total = len(articles)
+        processed = 0
+
+        with ThreadPoolExecutor(max_workers=3) as executor:
+            future_to_article = {
+                executor.submit(self.ingestPDFInVectorStore, article.pdf_path, article.title): article
+                for article in articles
+            }
+            for future in as_completed(future_to_article):
+                processed += 1
+                if logger : logger.info(f"Processed {processed}/{total} articles")
+                doc = future.result()
+                if doc:
+                    docs.append(doc)
+
+        if docs:
+            splits = self.vector_store.split_docs(docs)
+            self.vector_store.add_index(splits)
+            if logger : logger.info(f"Indexed {len(docs)} documents in batch")
+        else:
+            if logger : logger.info("No documents were processed successfully")
+
+    def ingest_articles(self, articles, logger=None):
+        for idx, article in enumerate(articles) :
+            if logger : logger.info(f"Processed {idx + 1}/{len(articles)} articles")
             self.ingestPDFInVectorStore(article.pdf_path, article.title)

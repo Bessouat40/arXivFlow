@@ -24,12 +24,13 @@ def arxiv_pipeline(
     k = 10,
     bucket_name = Config.BUCKET_NAME
 ):
+    logger = get_run_logger()
     articles = fetch_articles(topic, days_ago, k)
 
-    vs_future: PrefectFuture = ingest_articles_in_vector_store.submit(articles)
+    vs_future: PrefectFuture = ingest_articles_in_vector_store.submit(articles, logger)
     minio_future: PrefectFuture = ingest_articles_in_minio.submit(bucket_name, articles)
 
     result_message_vs = vs_future.result()
-    logging.info(result_message_vs)
+    logger.info(result_message_vs)
     result_message_minio = minio_future.result()
-    logging.info(result_message_minio)
+    logger.info(result_message_minio)

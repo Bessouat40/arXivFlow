@@ -26,3 +26,4 @@ venv.bak/
 *.xml
 
 test.ipynb
+defaultDb
