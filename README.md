@@ -84,4 +84,6 @@ docker run -d --name minio_server \
 
 - [x] **Embedding Extraction:** Use a model to extract and store embeddings from the PDFs for later semantic search.
 
-- [ ] **Semantic Search:** Implement a semantic search feature that leverages the stored embeddings to enable more accurate article search.
+- [x] **Semantic Search:** Implement a semantic search feature that leverages the stored embeddings to enable more accurate article search.
+
+- [x] **Add UI**

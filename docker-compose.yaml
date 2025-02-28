@@ -26,7 +26,7 @@ services:
     environment:
       - PREFECT_API_URL=${PREFECT_API_URL_AGENT}
     volumes:
-      - ${PERSIST_DIRECTORY}:/app/defaultDb
+      - ${LOCAL_PERSIST_DIRECTORY}:${PERSIST_DIRECTORY}
     restart: always
     depends_on:
       arxivflow-prefect-server:

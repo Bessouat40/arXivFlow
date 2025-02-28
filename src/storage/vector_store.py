@@ -17,6 +17,10 @@ class VectorStore:
         model_embeddings = Config.EMBEDDING_MODEL
         collection_name = Config.COLLECTION_NAME
 
+        print(persist_directory)
+        print(collection_name)
+        print(model_embeddings)
+
         self.vector_store: ChromaVS = Builder() \
                 .with_embeddings(Settings.HUGGINGFACE, model_name=model_embeddings) \
                 .with_vector_store(Settings.CHROMA, persist_directory=persist_directory, collection_name=collection_name) \
@@ -79,3 +83,6 @@ class VectorStore:
         for idx, article in enumerate(articles) :
             if logger : logger.info(f"Processed {idx + 1}/{len(articles)} articles")
             self.ingestPDFInVectorStore(article.pdf_path, article.title)
+
+    def similarity_search(self, user_input:str) :
+        return self.vector_store.similarity_search(user_input, k=30)

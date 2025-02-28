@@ -1,7 +1,7 @@
 import os
 
 class Config:
-    PERSIST_DIRECTORY = os.environ.get("PERSIST_DIRECTORY", "./")
+    PERSIST_DIRECTORY = os.environ.get("PERSIST_DIRECTORY", "/Users/labess40/dev/arXivFlow/defaultDb")
     EMBEDDING_MODEL = os.environ.get("EMBEDDING_MODEL", "all-MiniLM-L6-v2")
     COLLECTION_NAME = os.environ.get("COLLECTION_NAME")
     MINIO_ENDPOINT = os.environ.get("MINIO_ENDPOINT")
