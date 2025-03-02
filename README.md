@@ -10,7 +10,9 @@ arXivFlow is a project that enables you to automatically fetch, process, and ing
 
 - Fetch ArXiv Papers: Automatically query the ArXiv API for research papers based on a topic and publication date.
 - PDF Ingestion: Download the PDF files and store them in a MinIO bucket.
-- Pipeline Orchestration: Use Prefect flows and tasks to schedule and manage the pipeline.
+- Embeddings extraction : Extract embeddings and store them inside Chroma vector store.
+- Pipeline Orchestration: Use Prefect flows and tasks to schedule and manage the pipelines.
+- UI to display pdf, read them and filter them.
 
 ## Installation
 
@@ -47,25 +49,18 @@ You can run the pipeline as a scheduled flow using Prefect. For example, to run 
 python -m backend.main
 ```
 
-### Running the UI
-
-You can run the pipeline as a scheduled flow using Prefect. For example, to run the pipeline daily at midnight, use the Prefect deployment approach or serve the flow directly (for testing purposes).
-
-```bash
-python -m main
-```
-
 ### Running Pipelines and UI with Docker
 
-You can now run Prefect flow inside a Docker container :
+You can now run Prefect flow and UI inside a Docker container :
 
 ```bash
 docker-compose up -d --build
 ```
 
 Now you can access Prefect UI at [localhost:4200](http://localhost:4200/dashboard).
-
 Your flow will run every day at midnight.
+
+You can access UI at [localhost:3000](http://localhost:3000).
 
 ## Configuration
 
@@ -75,18 +70,9 @@ The pipeline fetches articles based on a given topic.
 
 You can modify this parameter in the **.env** file.
 
-## Prerequisites
+## UI
 
-- MinIO: Make sure you have a running MinIO server. You can start one using Docker:
-
-```bash
-docker run -d --name minio_server \
-  -p 9000:9000 \
-  -p 9001:9001 \
-  -e MINIO_ROOT_USER=minioadmin \
-  -e MINIO_ROOT_PASSWORD=minioadmin \
-  minio/minio server /data --console-address ":9001"
-```
+![UI demo](./media/arxiv.gif)
 
 ## TODO
 
