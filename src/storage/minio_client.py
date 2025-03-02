@@ -7,10 +7,11 @@ import logging
 
 class MinIOClient:
     def __init__(self, endpoint, access_key, secret_key):
+        print('endpoint: ', endpoint)
         self.minio_client = Minio(
-            endpoint,                  # e.g. "localhost:9000"
-            access_key=access_key,     # e.g. "minioadmin"
-            secret_key=secret_key,     # e.g. "minioadmin"
+            endpoint,
+            access_key=access_key,
+            secret_key=secret_key,
             secure=False
         )
         
@@ -71,4 +72,3 @@ class MinIOClient:
         except Exception as e:
             logging.error(f"Error retrieving docs from bucket '{bucket_name}': {e}")
             return []
-

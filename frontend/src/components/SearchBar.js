@@ -9,9 +9,9 @@ function SearchBar({ papers, setFilters }) {
   const handleSearch = async () => {
     try {
       const response = await fetch(
-        `http://localhost:8000/findSimilarity?user_input=${encodeURIComponent(
-          searchTerm
-        )}`
+        `http://${
+          process.env.REACT_APP_MINIO_HOST
+        }:8000/findSimilarity?user_input=${encodeURIComponent(searchTerm)}`
       );
       if (!response.ok) {
         throw new Error('Error during similarity search');

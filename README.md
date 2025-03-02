@@ -37,7 +37,7 @@ python -m pip install -r requirements.txt
 
 ## Usage
 
-### Running the Pipeline with Prefect Scheduling
+### Running the Pipeline with Prefect locally
 
 You can run the pipeline as a scheduled flow using Prefect. For example, to run the pipeline daily at midnight, use the Prefect deployment approach or serve the flow directly (for testing purposes).
 
@@ -45,7 +45,7 @@ You can run the pipeline as a scheduled flow using Prefect. For example, to run 
 python -m main
 ```
 
-### Running with Docker
+### Running Pipelines and UI with Docker
 
 You can now run Prefect flow inside a Docker container :
 

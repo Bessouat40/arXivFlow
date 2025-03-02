@@ -6,7 +6,7 @@ from src.storage.vector_store import VectorStore
 from src.config.config import Config
 import uvicorn
 
-minio_client = MinIOClient('localhost:9000', 'minioadmin', 'minioadmin')
+minio_client = MinIOClient(Config.MINIO_ENDPOINT, Config.MINIO_ROOT_USER, Config.MINIO_ROOT_PASSWORD)
 vector_store: VectorStore = VectorStore()
 
 app = FastAPI()
@@ -30,7 +30,6 @@ async def get_papers():
 async def get_similarity(user_input:str):
     docs = vector_store.similarity_search(user_input)
     sources = list(set(doc.metadata['source'] for doc in docs))
-    print(docs)
     return {'sources': sources}
 
 if __name__ == "__main__":

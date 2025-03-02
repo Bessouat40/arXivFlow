@@ -11,7 +11,9 @@ function App() {
   useEffect(() => {
     const fetchPapers = async () => {
       try {
-        const response = await fetch('http://localhost:8000/getPapers');
+        const response = await fetch(
+          `http://${process.env.REACT_APP_MINIO_HOST}:8000/getPapers`
+        );
         if (!response.ok) {
           throw new Error('Error during articles loading...');
         }

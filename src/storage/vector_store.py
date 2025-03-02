@@ -17,10 +17,6 @@ class VectorStore:
         model_embeddings = Config.EMBEDDING_MODEL
         collection_name = Config.COLLECTION_NAME
 
-        print(persist_directory)
-        print(collection_name)
-        print(model_embeddings)
-
         self.vector_store: ChromaVS = Builder() \
                 .with_embeddings(Settings.HUGGINGFACE, model_name=model_embeddings) \
                 .with_vector_store(Settings.CHROMA, persist_directory=persist_directory, collection_name=collection_name) \

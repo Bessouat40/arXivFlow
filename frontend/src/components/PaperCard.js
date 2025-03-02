@@ -31,21 +31,16 @@ function PaperCard({ title, pdfUrl }) {
   const [inputPage, setInputPage] = useState('');
   const [isLoaded, setIsLoaded] = useState(false);
   const [hasError, setHasError] = useState(false);
-  const [dialogIsLoaded, setDialogIsLoaded] = useState(false);
-  const [dialogHasError, setDialogHasError] = useState(false);
 
   const onDocumentLoadSuccess = ({ numPages }) => {
     setNumPages(numPages);
     setIsLoaded(true);
-    setDialogIsLoaded(true);
     setHasError(false);
-    setDialogHasError(false);
   };
 
   const onDocumentLoadError = (error) => {
     console.error('PDF loading error:', error);
     setHasError(true);
-    setDialogHasError(true);
   };
 
   const handleOpen = () => setOpen(true);
@@ -87,12 +82,26 @@ function PaperCard({ title, pdfUrl }) {
     const handleKeyDown = (event) => {
       if (!open) return;
 
+      const prevPage = () => {
+        if (pageNumber > 1) {
+          setPageNumber(pageNumber - 1);
+          setInputPage(pageNumber - 1);
+        }
+      };
+
+      const nextPage = () => {
+        if (pageNumber < numPages) {
+          setPageNumber(pageNumber + 1);
+          setInputPage(pageNumber + 1);
+        }
+      };
+
       switch (event.key) {
         case 'ArrowLeft':
-          handlePrevPage();
+          prevPage();
           break;
         case 'ArrowRight':
-          handleNextPage();
+          nextPage();
           break;
         default:
           break;
