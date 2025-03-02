@@ -7,7 +7,6 @@ import logging
 
 class MinIOClient:
     def __init__(self, endpoint, access_key, secret_key):
-        print('endpoint: ', endpoint)
         self.minio_client = Minio(
             endpoint,
             access_key=access_key,
@@ -54,9 +53,6 @@ class MinIOClient:
             logging.info(f"Error ingesting {article.title} into MinIO: {e}")
 
     def get_docs(self, bucket_name):
-        """
-        Liste les objets présents dans le bucket et renvoie leurs informations.
-        """
         try:
             self.ensure_bucket_exists(bucket_name)
             objects = self.minio_client.list_objects(bucket_name)

@@ -3,8 +3,8 @@ version: '3.8'
 services:
   arxivflow-prefect-server:
     build:
-      context: .
-      dockerfile: Dockerfile.prefect-server
+      context: ./docker/prefect-server
+      dockerfile: Dockerfile
     command: prefect server start --host 0.0.0.0
     ports:
       - '4200:4200'
@@ -20,7 +20,9 @@ services:
       retries: 10
 
   arxivflow-prefect-agent:
-    build: .
+    build:
+      context: .
+      dockerfile: ./Docker/prefect-agent/Dockerfile
     env_file:
       - .env
     environment:
@@ -49,8 +51,8 @@ services:
 
   frontend:
     build:
-      context: .
-      dockerfile: Dockerfile.frontend
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
       - '3000:3000'
     networks:
@@ -64,8 +66,8 @@ services:
 
   backend:
     build:
-      context: .
-      dockerfile: Dockerfile.backend
+      context: ./backend
+      dockerfile: Dockerfile
     ports:
       - '8000:8000'
     networks:
