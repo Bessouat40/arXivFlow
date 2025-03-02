@@ -1,10 +1,9 @@
-from fastapi import FastAPI, Query
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from src.storage.minio_client import MinIOClient
 from src.storage.vector_store import VectorStore
 from src.config.config import Config
-import uvicorn
 
 minio_client = MinIOClient(Config.MINIO_ENDPOINT, Config.MINIO_ROOT_USER, Config.MINIO_ROOT_PASSWORD)
 vector_store: VectorStore = VectorStore()
@@ -31,6 +30,3 @@ async def get_similarity(user_input:str):
     docs = vector_store.similarity_search(user_input)
     sources = list(set(doc.metadata['source'] for doc in docs))
     return {'sources': sources}
-
-if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8000)

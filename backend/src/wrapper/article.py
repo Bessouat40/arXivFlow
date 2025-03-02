@@ -2,7 +2,6 @@ import re
 
 class Article:
     def __init__(self, string):
-        # Regex
         self.feed_regex = r'<feed>(.*?)</feed>'
         self.entry_regex = r'<entry>(.*?)</entry>'
         self.updated_regex = r'<updated>(.*?)</updated>'
@@ -13,7 +12,6 @@ class Article:
         self.name_regex = r'<name>(.*?)</name>'
         self.pdf_regex = r'<link[^>]*title="pdf"[^>]*href="([^"]*)"[^>]*>'
 
-        # Variables
         self.updated_date = self.find_metadata(string, self.updated_regex)
         self.published_date = self.find_metadata(string, self.published_regex)
         self.title = self.find_metadata(string, self.title_regex)
