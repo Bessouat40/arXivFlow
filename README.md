@@ -32,12 +32,22 @@ mv .env.example .env
 3. Install the required packages
 
 ```bash
-python -m pip install -r requirements.txt
+python -m pip install -r backend/requirements.txt
+cd frontend
+npm i
 ```
 
 ## Usage
 
-### Running the Pipeline with Prefect locally
+### Start the Pipeline with Prefect locally
+
+You can run the pipeline as a scheduled flow using Prefect. For example, to run the pipeline daily at midnight, use the Prefect deployment approach or serve the flow directly (for testing purposes).
+
+```bash
+python -m backend.main
+```
+
+### Running the UI
 
 You can run the pipeline as a scheduled flow using Prefect. For example, to run the pipeline daily at midnight, use the Prefect deployment approach or serve the flow directly (for testing purposes).
 

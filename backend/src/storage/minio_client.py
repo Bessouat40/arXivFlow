@@ -26,10 +26,12 @@ class MinIOClient:
         else:
             logging.info(f"Bucket '{bucket_name}' already exists.")
 
-    def ingestDocsInMinio(self, bucket_name, articles):
+    def ingestDocsInMinio(self, bucket_name, articles, logger = None):
         self.ensure_bucket_exists(bucket_name)
-        for article in articles:
+        for idx, article in enumerate(articles):
             self.ingestDocInMinio(bucket_name, article)
+            if logger: logger.info(f'{idx+1}/{len(articles)} document(s) indexed...')
+
     
     def ingestDocInMinio(self, bucket_name, article):
         try:

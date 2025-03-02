@@ -26,10 +26,14 @@ def arxiv_pipeline(
     logger = get_run_logger()
     articles = fetch_articles(topic, days_ago, k)
 
-    vs_future: PrefectFuture = ingest_articles_in_vector_store.submit(articles, logger)
-    minio_future: PrefectFuture = ingest_articles_in_minio.submit(bucket_name, articles)
+    if len(articles) > 0:
+        vs_future: PrefectFuture = ingest_articles_in_vector_store.submit(articles, logger)
+        minio_future: PrefectFuture = ingest_articles_in_minio.submit(bucket_name, articles)
 
-    result_message_vs = vs_future.result()
-    logger.info(result_message_vs)
-    result_message_minio = minio_future.result()
-    logger.info(result_message_minio)
+        result_message_vs = vs_future.result()
+        logger.info(result_message_vs)
+        result_message_minio = minio_future.result()
+        logger.info(result_message_minio)
+    
+    else :
+        logger.info("No articles to ingest...")
