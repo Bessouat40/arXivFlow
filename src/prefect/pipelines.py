@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 from prefect import flow, task, get_run_logger
 from prefect.futures import PrefectFuture
-import logging
 
 from src.config import Config
 from src.wrapper import ArXivWrapper

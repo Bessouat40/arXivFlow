@@ -79,3 +79,6 @@ class VectorStore:
         for idx, article in enumerate(articles) :
             if logger : logger.info(f"Processed {idx + 1}/{len(articles)} articles")
             self.ingestPDFInVectorStore(article.pdf_path, article.title)
+
+    def similarity_search(self, user_input:str) :
+        return self.vector_store.similarity_search(user_input, k=30)

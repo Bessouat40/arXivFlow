@@ -26,7 +26,7 @@ services:
     environment:
       - PREFECT_API_URL=${PREFECT_API_URL_AGENT}
     volumes:
-      - ${PERSIST_DIRECTORY}:/app/defaultDb
+      - ${LOCAL_PERSIST_DIRECTORY}:${PERSIST_DIRECTORY}
     restart: always
     depends_on:
       arxivflow-prefect-server:
@@ -38,9 +38,49 @@ services:
       - .env
     ports:
       - '9000:9000'
+      - '9001:9001'
+    networks:
+      backend-net:
+        aliases:
+          - ${MINIO_HOST}
     volumes:
       - minio_data:/data
-    command: server /data
+    command: server /data --console-address ":9001"
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - '3000:3000'
+    networks:
+      - backend-net
+    environment:
+      - HOST=0.0.0.0
+      - REACT_APP_MINIO_HOST=${MINIO_HOST}
+    env_file:
+      - .env
+    restart: always
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - '8000:8000'
+    networks:
+      - backend-net
+    depends_on:
+      - minio
+    env_file:
+      - .env
+    volumes:
+      - ${LOCAL_PERSIST_DIRECTORY}:${PERSIST_DIRECTORY}
+    restart: always
 
 volumes:
   minio_data:
+
+networks:
+  backend-net:
+    driver: bridge

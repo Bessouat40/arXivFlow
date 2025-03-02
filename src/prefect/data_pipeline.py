@@ -5,7 +5,7 @@ from src.config import Config
 def ingest_articles_in_minio(bucket_name: str, articles: list) -> str:
     logger = get_run_logger()
     minio_client = MinIOClient(
-        endpoint=Config.MINIO_ENDPOINT,
+        internal_endpoint=Config.MINIO_ENDPOINT,
         access_key=Config.MINIO_ROOT_USER,
         secret_key=Config.MINIO_ROOT_PASSWORD
     )

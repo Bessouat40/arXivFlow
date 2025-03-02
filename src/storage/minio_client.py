@@ -7,10 +7,11 @@ import logging
 
 class MinIOClient:
     def __init__(self, endpoint, access_key, secret_key):
+        print('endpoint: ', endpoint)
         self.minio_client = Minio(
-            endpoint,                  # e.g. "localhost:9000"
-            access_key=access_key,     # e.g. "minioadmin"
-            secret_key=secret_key,     # e.g. "minioadmin"
+            endpoint,
+            access_key=access_key,
+            secret_key=secret_key,
             secure=False
         )
         
@@ -51,3 +52,23 @@ class MinIOClient:
                 logging.info(f"Error downloading PDF for {article.title} (status {response.status_code})")
         except Exception as e:
             logging.info(f"Error ingesting {article.title} into MinIO: {e}")
+
+    def get_docs(self, bucket_name):
+        """
+        Liste les objets présents dans le bucket et renvoie leurs informations.
+        """
+        try:
+            self.ensure_bucket_exists(bucket_name)
+            objects = self.minio_client.list_objects(bucket_name)
+            docs_info = []
+            for obj in objects:
+                url = self.minio_client.presigned_get_object(bucket_name, obj.object_name)
+                title = ''.join(obj.object_name.split('_')[:-1])
+                docs_info.append({
+                    "title": title,
+                    "pdfUrl": url
+                })
+            return docs_info
+        except Exception as e:
+            logging.error(f"Error retrieving docs from bucket '{bucket_name}': {e}")
+            return []
