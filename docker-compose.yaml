@@ -3,7 +3,7 @@ version: '3.8'
 services:
   prefect-server:
     build:
-      context: ./docker/prefect-server
+      context: ./Docker/prefect-server
       dockerfile: Dockerfile
     command: prefect server start --host 0.0.0.0
     ports:
