@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  arxivflow-prefect-server:
+  prefect-server:
     build:
       context: ./docker/prefect-server
       dockerfile: Dockerfile
@@ -19,7 +19,7 @@ services:
       timeout: 5s
       retries: 10
 
-  arxivflow-prefect-agent:
+  prefect-agent:
     build:
       context: .
       dockerfile: ./Docker/prefect-agent/Dockerfile
@@ -31,7 +31,7 @@ services:
       - ${LOCAL_PERSIST_DIRECTORY}:${PERSIST_DIRECTORY}
     restart: always
     depends_on:
-      arxivflow-prefect-server:
+      prefect-server:
         condition: service_healthy
 
   minio:

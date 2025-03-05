@@ -19,7 +19,7 @@ def fetch_articles(topic: str, days_ago: int, k: int) -> list:
 @flow(name="ArXiv to Vector Store and MinIO Pipeline")
 def arxiv_pipeline(
     topic = Config.ARXIV_TOPIC,
-    days_ago = 1,
+    days_ago = 4,
     k = 10,
     bucket_name = Config.BUCKET_NAME
 ):

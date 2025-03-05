@@ -49,17 +49,19 @@ class ArXivWrapper:
             self.download_article(article, directory)
 
     def filter_articles(self, matches):
-        has_correct_date = False
-        min_date = None
+        continue_scrapping = True
+        
         for match in matches:
             article = Article(match)
             given_date = datetime.strptime(article.published_date[:10], self.date_format).strftime(self.date_format)
+            
             if given_date == self.date:
                 self.articles.append(article)
-                has_correct_date = True
-            if min_date is None or given_date < min_date:
-                min_date = given_date
-        return has_correct_date and (min_date is None or min_date >= self.date)
+            elif given_date < self.date:
+                continue_scrapping = False
+
+        return continue_scrapping
+
 
     def generate_unique_filename(self, directory, base_filename):
         filename, extension = os.path.splitext(base_filename)
