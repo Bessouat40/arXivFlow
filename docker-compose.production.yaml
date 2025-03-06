@@ -52,7 +52,9 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.production
+      args:
+        MINIO_HOST: ${MINIO_HOST}
     ports:
       - '80:80'
     networks:

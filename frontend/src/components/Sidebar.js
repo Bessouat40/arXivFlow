@@ -19,7 +19,6 @@ const ModernSidebar = ({ currentView, setCurrentView }) => {
         top: 0,
       }}
     >
-      {/* Icône Articles */}
       <Tooltip title="Articles" placement="right">
         <IconButton
           onClick={() => setCurrentView('papers')}
@@ -36,7 +35,6 @@ const ModernSidebar = ({ currentView, setCurrentView }) => {
         </IconButton>
       </Tooltip>
 
-      {/* Icône Chat */}
       <Tooltip title="Chat" placement="right">
         <IconButton
           onClick={() => setCurrentView('chat')}

@@ -9,7 +9,7 @@ function App() {
   const [currentPage, setCurrentPage] = useState(1);
   const [papers, setPapers] = useState([]);
   const [filters, setFilters] = useState([]);
-  const [currentView, setCurrentView] = useState('papers'); // 'papers' ou 'chat'
+  const [currentView, setCurrentView] = useState('papers');
 
   useEffect(() => {
     const fetchPapers = async () => {
@@ -44,7 +44,6 @@ function App() {
     setCurrentPage(value);
   };
 
-  // Rendu du contenu principal
   const renderContent = () => {
     if (currentView === 'chat') {
       return (
@@ -93,13 +92,11 @@ function App() {
 
   return (
     <Box sx={{ display: 'flex', height: '100vh' }}>
-      {/* Barre latérale minimaliste - Toujours visible */}
       <ModernSidebar
         currentView={currentView}
         setCurrentView={setCurrentView}
       />
 
-      {/* Contenu principal - avec layout cohérent */}
       <Box
         sx={{
           flexGrow: 1,
