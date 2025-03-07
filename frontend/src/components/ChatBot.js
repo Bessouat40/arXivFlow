@@ -33,13 +33,16 @@ const ChatBot = () => {
 
     try {
       // Appel à l'API
-      const response = await fetch('http://localhost:8000/chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ user_input: userMessage }),
-      });
+      const response = await fetch(
+        `http://${process.env.REACT_APP_MINIO_HOST}:8000/chat`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ user_input: userMessage }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error(`Erreur HTTP: ${response.status}`);
