@@ -6,21 +6,30 @@ from src.storage.vector_store import VectorStore
 from src.config.config import Config
 import os
 
-from raglight.config.settings import Settings
-from raglight import Builder
+from raglight import Builder, AgenticRAGConfig, AgenticRAG, Settings
 
 minio_client = MinIOClient(Config.MINIO_ENDPOINT, Config.MINIO_ROOT_USER, Config.MINIO_ROOT_PASSWORD)
 vector_store: VectorStore = VectorStore()
 
 Settings.setup_logging()
 
-persist_directory = "/Users/labess40/dev/arXivFlow/defaultDb"
+persist_directory = Config.PERSIST_DIRECTORY
 
-rag = Builder() \
-    .with_embeddings(Settings.HUGGINGFACE, model_name=Settings.DEFAULT_EMBEDDINGS_MODEL) \
-    .with_vector_store(Settings.CHROMA, persist_directory=persist_directory, collection_name=Config.COLLECTION_NAME) \
-    .with_llm(Settings.MISTRAL, model_name="mistral-large-2411") \
-    .build_rag(k = 5)
+Settings.setup_logging()
+
+vector_store = Builder() \
+.with_embeddings(Settings.HUGGINGFACE, model_name=Config.EMBEDDING_MODEL) \
+.with_vector_store(Settings.CHROMA, persist_directory=persist_directory, collection_name=Config.COLLECTION_NAME) \
+.build_vector_store()
+
+config = AgenticRAGConfig(
+            provider = Settings.MISTRAL.lower(),
+            model = "codestral-latest",
+            vector_store=vector_store,
+            k=10,
+        )
+
+agenticRag = AgenticRAG(config)
 
 app = FastAPI()
 
@@ -50,5 +59,5 @@ async def get_similarity(user_input:str):
 
 @app.post('/chat')
 async def get_similarity(chat_input: ChatInput):
-    response = rag.question_graph(chat_input.user_input)
+    response = agenticRag.generate(chat_input.user_input)
     return {'response': response}
