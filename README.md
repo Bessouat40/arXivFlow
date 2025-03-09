@@ -74,7 +74,10 @@ You can modify this parameter in the **.env** file.
 
 ## UI
 
-![UI demo](./media/arxiv.gif)
+<video controls>
+    <source src="media/arxivflowProd.mov" type="video/mp4" />
+    Your browser does not support the video tag.
+</video>
 
 ## TODO
 
