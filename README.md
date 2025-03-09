@@ -72,13 +72,6 @@ The pipeline fetches articles based on a given topic.
 
 You can modify this parameter in the **.env** file.
 
-## UI
-
-<video controls>
-    <source src="media/arxivflowProd.mov" type="video/mp4" />
-    Your browser does not support the video tag.
-</video>
-
 ## TODO
 
 - [x] **Containerization with Docker:** Create a Dockerfile to containerize the application and manage its dependencies.
