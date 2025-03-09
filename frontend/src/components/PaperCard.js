@@ -20,6 +20,7 @@ import 'react-pdf/dist/Page/TextLayer.css';
 import 'react-pdf/dist/Page/AnnotationLayer.css';
 
 import { pdfjs, Document, Page } from 'react-pdf';
+import ChatBot from './ChatBot';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
@@ -330,6 +331,7 @@ function PaperCard({ title, pdfUrl }) {
               Go
             </Button>
           </Box>
+          <ChatBot />
         </DialogContent>
       </Dialog>
     </>

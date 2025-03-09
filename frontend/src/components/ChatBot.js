@@ -27,12 +27,10 @@ const ChatBot = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  // Fonction pour appeler l'API de chat
   const fetchBotResponse = async (userMessage) => {
     setIsLoading(true);
 
     try {
-      // Appel à l'API
       const response = await fetch(
         `http://${process.env.REACT_APP_MINIO_HOST}:8000/chat`,
         {
@@ -58,11 +56,9 @@ const ChatBot = () => {
     }
   };
 
-  // Gestion de l'envoi d'un message
   const handleSendMessage = async () => {
     if (inputValue.trim() === '') return;
 
-    // Ajouter le message de l'utilisateur
     const userMessage = {
       id: Date.now(),
       text: inputValue,
@@ -72,7 +68,6 @@ const ChatBot = () => {
     setMessages((prevMessages) => [...prevMessages, userMessage]);
     setInputValue('');
 
-    // Obtenir la réponse du bot
     const botResponseText = await fetchBotResponse(inputValue);
 
     const botMessage = {
@@ -91,25 +86,19 @@ const ChatBot = () => {
     }
   };
 
-  // Styles personnalisés pour Markdown
   const markdownStyles = {
-    // Style du conteneur global
     container: {
       fontFamily: 'inherit',
       lineHeight: '1.6',
       width: '100%',
     },
-    // Styles pour les titres
     h1: { fontSize: '1.8em', fontWeight: 'bold', margin: '0.8em 0 0.4em 0' },
     h2: { fontSize: '1.6em', fontWeight: 'bold', margin: '0.8em 0 0.4em 0' },
     h3: { fontSize: '1.4em', fontWeight: 'bold', margin: '0.7em 0 0.3em 0' },
-    // Styles pour les paragraphes
     p: { margin: '0.5em 0' },
-    // Styles pour les listes
     ul: { marginLeft: '1.5em', listStyleType: 'disc' },
     ol: { marginLeft: '1.5em' },
     li: { margin: '0.3em 0' },
-    // Styles pour le code
     code: {
       backgroundColor: 'rgba(0, 0, 0, 0.05)',
       padding: '0.2em 0.4em',
@@ -124,14 +113,12 @@ const ChatBot = () => {
       overflow: 'auto',
       margin: '0.5em 0',
     },
-    // Styles pour les citations
     blockquote: {
       borderLeft: '4px solid #ddd',
       padding: '0 0 0 1em',
       color: '#666',
       margin: '0.5em 0',
     },
-    // Styles pour les tableaux
     table: {
       borderCollapse: 'collapse',
       width: '100%',
@@ -207,7 +194,6 @@ const ChatBot = () => {
                 }}
               >
                 {message.sender === 'user' ? (
-                  // Message utilisateur en texte simple
                   <Typography
                     variant="body1"
                     sx={{
@@ -218,7 +204,6 @@ const ChatBot = () => {
                     {message.text}
                   </Typography>
                 ) : (
-                  // Message du bot en Markdown
                   <Box sx={{ width: '100%' }}>
                     <ReactMarkdown
                       remarkPlugins={[remarkGfm]}
@@ -347,14 +332,14 @@ const ChatBot = () => {
             multiline
             maxRows={4}
             variant="outlined"
-            placeholder="Envoyez un message..."
+            placeholder="Send a message..."
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyPress}
             sx={{
               '& .MuiOutlinedInput-root': {
                 borderRadius: '8px',
-                pr: '40px', // Espace pour le bouton
+                pr: '40px',
                 '& fieldset': {
                   borderColor: '#e0e0e0',
                 },
